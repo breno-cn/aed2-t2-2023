@@ -7,6 +7,7 @@ typedef struct {
 
 graph_t *Graph_new();
 void Graph_delete(graph_t *g);
+void Graph_read_file(graph_t *g, char *filepath);
 
 vertex_list_t *Graph_add_vertex(graph_t *g, char *name);
 void Graph_add_edge(graph_t *g, char *from, char *to, int distance, int toll);

@@ -1,0 +1,5 @@
+Uberlândia-MG Uberaba-MG 107 50
+Uberlândia-MG Tapuirama-MG 50 0
+Tapuirama-MG Uberaba-MG 57 0
+Uberaba-MG Igarapava-SP 42 30
+Igarapava-SP Ituverava-SP 37 15
