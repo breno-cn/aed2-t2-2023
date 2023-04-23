@@ -43,7 +43,7 @@ void Graph_print(graph_t *g) {
         printf("%s", current->head->name);
         adjacency_list_t *current_adj = current->al;
         while (current_adj != NULL) {
-                if (current_adj->head != NULL) {
+            if (current_adj->head != NULL) {
                 printf(" -> (%s, %d, %d)", current_adj->head->name, current_adj->distance, current_adj->toll);
             }
             current_adj = current_adj->tail;
