@@ -48,7 +48,8 @@ void Graph_print(graph_t *g) {
             }
             current_adj = current_adj->tail;
         }
-        printf("\n|\nv\n");
         current = current->tail;
+        if (current != NULL)
+            printf("\n|\nv\n");
     }
 }

@@ -31,14 +31,14 @@ void VertexList_delete(vertex_list_t *vl) {
 }
 
 vertex_list_t *VertexList_add(vertex_list_t *vl, char *name) {
-    // first vertex to add
+    // primeiro vertice
     if (!vl->head) {
         vl->head = Vertex_new(name);
         vl->tail = NULL;
         return vl;
     }
 
-    // search if the vertex has already ben added
+    // busca se o vertice ja existe
     vertex_list_t *current = vl;
     while (current != NULL) {
         if (strcmp(current->head->name, name) == 0) {
@@ -53,6 +53,6 @@ vertex_list_t *VertexList_add(vertex_list_t *vl, char *name) {
     new_node->head = Vertex_new(name);
     new_node->tail = vl->tail;
     vl->tail = new_node;
-    
+
     return new_node;
 }

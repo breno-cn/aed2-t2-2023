@@ -3,7 +3,6 @@
 
 typedef struct {
     vertex_list_t *vl;
-    
 } graph_t;
 
 graph_t *Graph_new();

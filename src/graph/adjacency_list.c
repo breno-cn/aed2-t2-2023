@@ -37,8 +37,7 @@ void AdjacencyList_add(adjacency_list_t *al, char *to, int distance, int toll) {
     new_node->head = Vertex_new(to);
     new_node->distance = distance;
     new_node->toll = toll;
-
-    // al->tail = new_node;
     new_node->tail = al->tail;
+    
     al->tail = new_node;
 }
