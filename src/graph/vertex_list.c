@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "vertex_list.h"
+#include "adjacency_list.h"
 
 vertex_list_t *VertexList_new() {
     vertex_list_t *vl = malloc(sizeof(vertex_list_t));
@@ -11,6 +12,7 @@ vertex_list_t *VertexList_new() {
 
     vl->head = NULL;
     vl->tail = NULL;
+    vl->al = AdjacencyList_new();
     return vl;
 }
 
@@ -19,20 +21,21 @@ void VertexList_delete(vertex_list_t *vl) {
         return;
     
     vertex_list_t *current = vl->tail;
-    while (vl != NULL) {
-        current = vl;
-        vl = vl->tail;
+    while (current != NULL) {
+        current = current->tail;
         free(current);
     }
 
+    AdjacencyList_delete(vl->al);
     free(vl);
 }
 
-void VertexList_add(vertex_list_t *vl, char *name) {
+vertex_list_t *VertexList_add(vertex_list_t *vl, char *name) {
     // first vertex to add
     if (!vl->head) {
         vl->head = Vertex_new(name);
-        return;
+        vl->tail = NULL;
+        return vl;
     }
 
     // search if the vertex has already ben added
@@ -40,14 +43,16 @@ void VertexList_add(vertex_list_t *vl, char *name) {
     while (current != NULL) {
         if (strcmp(current->head->name, name) == 0) {
             // vertice ja existe, nao fazer nada
-            return;
+            return current;
         }
 
         current = current->tail;
     }
 
-    vertex_t *new_vertex = Vertex_new(name);
     vertex_list_t *new_node = VertexList_new();
-    new_node->head = new_vertex;
+    new_node->head = Vertex_new(name);
+    new_node->tail = vl->tail;
     vl->tail = new_node;
+    
+    return new_node;
 }
