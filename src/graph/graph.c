@@ -51,6 +51,31 @@ void Graph_add_edge(graph_t *g, char *from, char *to, int distance, int toll) {
     AdjacencyList_add(from_vertex->al, to, distance, toll);
 }
 
+void Graph_routes_from(graph_t *g, char *from, RouteExhibitionMode mode, int max_steps) {
+    vertex_list_t *current = g->vl;
+    while (current != NULL) {
+        printf("%s", current->head->name);
+
+        adjacency_list_t *current_adj = current->al;
+        int current_steps = 0;
+        while (current_adj != NULL && current_steps <= max_steps) {
+            if (current_adj->head != NULL) {
+                if (mode == ExhibitionMode_by_distance) {
+                    printf(" -> (%s, %d km)", current_adj->head->name, current_adj->distance);
+                } else {
+                    printf(" -> (%s, $RS %d)", current_adj->head->name, current_adj->toll);
+                }
+            }
+
+            current_steps++;
+            current_adj = current_adj->tail;
+        }
+
+        printf("\n");
+        break;
+    }
+}
+
 void Graph_print(graph_t *g) {
     if (!g->vl->head) {
         printf("Empty graph...\n");
