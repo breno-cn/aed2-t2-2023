@@ -56,3 +56,28 @@ vertex_list_t *VertexList_add(vertex_list_t *vl, char *name) {
 
     return new_node;
 }
+
+vertex_list_t *VertexList_find(vertex_list_t *vl, char *name) {
+    if (!vl)
+        return NULL;
+
+    vertex_list_t *current = vl;
+    while (current) {
+        printf("A\n");
+        if (strcmp(current->head->name, name) == 0) {
+            printf("B\n");
+            // printf("--|%s|--\n", current->head->name);
+            printf("C\n");
+            vertex_list_t *found = malloc(sizeof(vertex_list_t));
+            found->al = current->al;
+            found->head = current->head;
+            found->tail = current->tail;
+            printf("D\n");
+            return found;
+        }
+
+        current = current->tail;
+    }
+
+    return NULL;
+}

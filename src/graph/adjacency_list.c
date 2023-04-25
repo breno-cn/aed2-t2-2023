@@ -17,24 +17,12 @@ void AdjacencyList_delete(adjacency_list_t *al) {
     if (!al)
         return;
 
-    if (!al->head) {
-        free(al);
-        return;
-    }
-
-    adjacency_list_t *current = al->tail;
-    while (current != NULL) {
-        adjacency_list_t *tmp = current;
-        current = current->tail;
-        free(tmp);
-    }
-
     free(al);
 }
 
-void AdjacencyList_add(adjacency_list_t *al, char *to, int distance, int toll) {
+void AdjacencyList_add(adjacency_list_t *al, struct vertex_list_t *to, int distance, int toll) {
     adjacency_list_t *new_node = AdjacencyList_new();
-    new_node->head = Vertex_new(to);
+    new_node->head = to;
     new_node->distance = distance;
     new_node->toll = toll;
     new_node->tail = al->tail;

@@ -46,33 +46,37 @@ vertex_list_t *Graph_add_vertex(graph_t *g, char *name) {
 
 void Graph_add_edge(graph_t *g, char *from, char *to, int distance, int toll) {
     vertex_list_t *from_vertex = Graph_add_vertex(g, from);
-    Graph_add_vertex(g, to);
+    vertex_list_t *to_vertex = Graph_add_vertex(g, to);
 
-    AdjacencyList_add(from_vertex->al, to, distance, toll);
+    AdjacencyList_add(from_vertex->al, to_vertex, distance, toll);
+    AdjacencyList_add(to_vertex->al, from_vertex, distance, toll);
 }
 
 void Graph_routes_from(graph_t *g, char *from, RouteExhibitionMode mode, int max_steps) {
-    vertex_list_t *current = g->vl;
-    while (current != NULL) {
-        printf("%s", current->head->name);
+    vertex_list_t *start = VertexList_find(g->vl, from);
 
-        adjacency_list_t *current_adj = current->al;
-        int current_steps = 0;
-        while (current_adj != NULL && current_steps <= max_steps) {
-            if (current_adj->head != NULL) {
-                if (mode == ExhibitionMode_by_distance) {
-                    printf(" -> (%s, %d km)", current_adj->head->name, current_adj->distance);
-                } else {
-                    printf(" -> (%s, $RS %d)", current_adj->head->name, current_adj->toll);
-                }
-            }
+    // _Graph_routes_from(g, start, mode, 0, max_steps);
+    adjacency_list_t *current_node = start->al;
+    printf("|%p|", current_node->head);
+    // if (!current_node->head)
+        // return;
 
-            current_steps++;
-            current_adj = current_adj->tail;
-        }
+    while (current_node) {
+        _Graph_routes_from(g, current_node->head, mode, 0, max_steps);
+    }
+}
 
-        printf("\n");
-        break;
+static void _Graph_routes_from(graph_t *g, vertex_list_t *from, RouteExhibitionMode mode, int current_step, int max_steps) {
+    if (current_step >= max_steps)
+        return;
+
+    printf("%s -> ", from->head->name);
+    adjacency_list_t *current_node = from->al;
+    if (!current_node->head)
+        return;
+
+    while (current_node) {
+        _Graph_routes_from(g, current_node->head, mode, current_step + 1, max_steps);
     }
 }
 
@@ -88,7 +92,7 @@ void Graph_print(graph_t *g) {
         adjacency_list_t *current_adj = current->al;
         while (current_adj != NULL) {
             if (current_adj->head != NULL) {
-                printf(" -> (%s, %d, %d)", current_adj->head->name, current_adj->distance, current_adj->toll);
+                printf(" -> (%s, %d km, $RS %d)", current_adj->head->head->name, current_adj->distance, current_adj->toll);
             }
             current_adj = current_adj->tail;
         }
