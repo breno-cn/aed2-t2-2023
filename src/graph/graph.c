@@ -41,7 +41,7 @@ void Graph_read_file(graph_t *g, char *filepath) {
 }
 
 vertex_list_t *Graph_add_vertex(graph_t *g, char *name) {
-    VertexList_add(g->vl, name);
+    return VertexList_add(g->vl, name);
 }
 
 void Graph_add_edge(graph_t *g, char *from, char *to, int distance, int toll) {
@@ -54,16 +54,7 @@ void Graph_add_edge(graph_t *g, char *from, char *to, int distance, int toll) {
 
 void Graph_routes_from(graph_t *g, char *from, RouteExhibitionMode mode, int max_steps) {
     vertex_list_t *start = VertexList_find(g->vl, from);
-
-    // _Graph_routes_from(g, start, mode, 0, max_steps);
-    adjacency_list_t *current_node = start->al;
-    printf("|%p|", current_node->head);
-    // if (!current_node->head)
-        // return;
-
-    while (current_node) {
-        _Graph_routes_from(g, current_node->head, mode, 0, max_steps);
-    }
+    _Graph_routes_from(g, start, mode, 0, max_steps);
 }
 
 static void _Graph_routes_from(graph_t *g, vertex_list_t *from, RouteExhibitionMode mode, int current_step, int max_steps) {
@@ -72,7 +63,8 @@ static void _Graph_routes_from(graph_t *g, vertex_list_t *from, RouteExhibitionM
 
     printf("%s -> ", from->head->name);
     adjacency_list_t *current_node = from->al;
-    if (!current_node->head)
+    printf("%p\n", current_node);
+    if (!current_node)
         return;
 
     while (current_node) {

@@ -34,6 +34,7 @@ vertex_list_t *VertexList_add(vertex_list_t *vl, char *name) {
     // primeiro vertice
     if (!vl->head) {
         vl->head = Vertex_new(name);
+        vl->al = AdjacencyList_new();
         vl->tail = NULL;
         return vl;
     }
@@ -52,6 +53,7 @@ vertex_list_t *VertexList_add(vertex_list_t *vl, char *name) {
     vertex_list_t *new_node = VertexList_new();
     new_node->head = Vertex_new(name);
     new_node->tail = vl->tail;
+    new_node->al = AdjacencyList_new();
     vl->tail = new_node;
 
     return new_node;
@@ -68,12 +70,7 @@ vertex_list_t *VertexList_find(vertex_list_t *vl, char *name) {
             printf("B\n");
             // printf("--|%s|--\n", current->head->name);
             printf("C\n");
-            vertex_list_t *found = malloc(sizeof(vertex_list_t));
-            found->al = current->al;
-            found->head = current->head;
-            found->tail = current->tail;
-            printf("D\n");
-            return found;
+            return current;
         }
 
         current = current->tail;

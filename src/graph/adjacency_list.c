@@ -10,6 +10,7 @@ adjacency_list_t *AdjacencyList_new() {
         return NULL;
 
     al->head = NULL;
+    al->tail = NULL;
     return al;
 }
 
@@ -21,6 +22,13 @@ void AdjacencyList_delete(adjacency_list_t *al) {
 }
 
 void AdjacencyList_add(adjacency_list_t *al, struct vertex_list_t *to, int distance, int toll) {
+    if (!al->head) {
+        // primeiro no
+        al->head = to;
+        al->distance = distance;
+        al->toll = toll;
+    }
+
     adjacency_list_t *new_node = AdjacencyList_new();
     new_node->head = to;
     new_node->distance = distance;
