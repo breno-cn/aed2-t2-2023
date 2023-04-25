@@ -29,12 +29,14 @@ void Graph_read_file(graph_t *g, char *filepath) {
 
     char line[LINE_SIZE];
     while (fgets(line, LINE_SIZE, file)) {
+        printf("-- %s", line);
         char *from = strtok(line, " ");
         char *to = strtok(NULL, " ");
         int distance = atoi(strtok(NULL, " "));
         int toll = atoi(strtok(NULL, " "));
 
         Graph_add_edge(g, from, to, distance, toll);
+        Graph_add_edge(g, to, from, distance, toll);
     }
 
     fclose(file);
@@ -49,7 +51,6 @@ void Graph_add_edge(graph_t *g, char *from, char *to, int distance, int toll) {
     vertex_list_t *to_vertex = Graph_add_vertex(g, to);
 
     AdjacencyList_add(from_vertex->al, to_vertex, distance, toll);
-    AdjacencyList_add(to_vertex->al, from_vertex, distance, toll);
 }
 
 void Graph_routes_from(graph_t *g, char *from, RouteExhibitionMode mode, int max_steps) {
@@ -63,7 +64,7 @@ static void _Graph_routes_from(graph_t *g, vertex_list_t *from, RouteExhibitionM
 
     printf("%s -> ", from->head->name);
     adjacency_list_t *current_node = from->al;
-    printf("%p\n", current_node);
+    // printf("%p\n", current_node);
     if (!current_node)
         return;
 

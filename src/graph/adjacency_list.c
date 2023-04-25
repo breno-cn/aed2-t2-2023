@@ -27,6 +27,8 @@ void AdjacencyList_add(adjacency_list_t *al, struct vertex_list_t *to, int dista
         al->head = to;
         al->distance = distance;
         al->toll = toll;
+        
+        return;
     }
 
     adjacency_list_t *new_node = AdjacencyList_new();
